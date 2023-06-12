@@ -106,7 +106,7 @@ if(ch==3):
     print(array)
 print("******************Running time analysis***************")
 for i in range(1,10):
-    array=randint(0,1000+i,1000+i)
+    array=randint(0,1000*i,1000*i)
     print(i)
     start=time.time()
     if ch==1:
