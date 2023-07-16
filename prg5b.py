@@ -1,14 +1,14 @@
 import heapq
 
 class Node:
-    def __init__(self, freq, symbol, left=None, right=None):
+    def _init_(self, freq, symbol, left=None, right=None):
         self.freq = freq
         self.symbol = symbol
         self.left = left
         self.right = right
         self.huff = ''
 
-    def __lt__(self, nxt):
+    def _lt_(self, nxt):
         return self.freq < nxt.freq
 
 def printNodes(node, val=''):
@@ -19,6 +19,24 @@ def printNodes(node, val=''):
         printNodes(node.right, newVal)
     if not node.left and not node.right:
         print(f"{node.symbol} -> {newVal}")
+def encode_text(text, huffman_tree):
+    encoding_map = {}
+
+    def traverse_tree(node, code=''):
+        if node.left:
+            traverse_tree(node.left, code + '0')
+        if node.right:
+            traverse_tree(node.right, code + '1')
+        if not node.left and not node.right:
+            encoding_map[node.symbol] = code
+
+    traverse_tree(huffman_tree)
+
+    encoded_text = ''
+    for char in text:
+        encoded_text += encoding_map[char]
+
+    return encoded_text
 
 def decode_text(encoded_text, huffman_tree):
     decoded_text = ''
@@ -55,6 +73,9 @@ printNodes(nodes[0])
 
 huffman_tree = nodes[0]
 
+text_input = input("Enter text to encode: ")
+encoded_binary_text = encode_text(text_input, huffman_tree)
+print("Encoded binary text:", encoded_binary_text)
 encoded_text = input("Enter the encoded text: ")
 decoded_text = decode_text(encoded_text, huffman_tree)
-print("Decoded text:", decoded_text)
+print("Decoded text:", decoded_text)
